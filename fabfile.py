@@ -42,6 +42,20 @@ def stage():
 def live():
     env.update(env.settings['live'])
 
+def bootstrap():
+    with settings(user='root'):
+        run('apt-get -q -y update')
+        run('apt-get -q -y upgrade')
+        run('apt-get -q -y install wget ssl-cert ruby ruby-dev '
+            'libopenssl-ruby rdoc ri irb build-essential')
+        with cd('/tmp'):
+            run('wget -q http://production.cf.rubygems.org/rubygems/rubygems-1.7.2.tgz')
+            run('tar xf rubygems-1.7.2.tgz')
+            with cd('rubygems-1.7.2'):
+                run('ruby setup.rb --no-format-executable')
+            run('rm -rf rubygems-1.7.2*')
+        run('gem install chef --no-ri --no-rdoc')
+
 def virtualenv():
     run('mkdir -p %s' % env.path)
     run('virtualenv %s/../../' % env.path)
