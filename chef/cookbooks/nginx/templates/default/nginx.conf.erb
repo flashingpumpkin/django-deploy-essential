@@ -1,0 +1,37 @@
+user www-data;
+worker_processes  4;
+
+error_log  /var/log/nginx/error.log;
+pid        /var/run/nginx.pid;
+
+events {
+    worker_connections  1024;
+}
+
+http {
+
+    access_log  <%= node[:nginx][:logs] %>/access.log;
+
+    sendfile on;
+    tcp_nopush on;
+    tcp_nodelay on;
+    keepalive_timeout 65;
+
+    include <%= node[:nginx][:conf] %>/mime.types;
+    default_type application/octet-stream;
+
+    gzip  on;
+    gzip_disable "MSIE [1-6]\.(?!.*SV1)";
+    gzip_vary on;
+    gzip_proxied any;
+    gzip_comp_level 6;
+    gzip_buffers 16 8k;
+    gzip_http_version 1.1;
+    gzip_types text/plain text/css application/json application/x-javascript text/xml application/xml application/xml+rss text/javascript;
+
+    client_max_body_size <%= node[:nginx][:max_body_size] %>;
+
+    include <%= node[:nginx][:conf] %>/conf.d/*.conf;
+    include <%= node[:nginx][:conf] %>/sites-enabled/*;
+}
+
