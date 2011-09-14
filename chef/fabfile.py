@@ -13,7 +13,6 @@ from fabric.contrib import files
 
 import settings as conf
 
-env.hosts = conf.HOSTS
 env.user = conf.USER
 
 def password():
