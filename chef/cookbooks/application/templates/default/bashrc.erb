@@ -11,7 +11,7 @@ function python_startup(){
         . `which virtualenvwrapper.sh`
     fi
 
-    if [ -f .virtualenvs/<%= node[:virtualenv][:name] %>/bin/python ]; then
+    if [ -f ~/.virtualenvs/<%= node[:virtualenv][:name] %>/bin/python ]; then
         workon <%= node[:virtualenv][:name] %>
     fi
 
@@ -29,8 +29,12 @@ function _bash_git(){
     git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ ~\1$(_bash_git_status)/'
 }
 
+function _virtual_env_name(){
+    [[ $(basename $VIRTUAL_ENV 2>/dev/null) ]] && echo "($(basename $VIRTUAL_ENV))"
+}
+
 function prompt(){
-    PS1="\u@\h:[\W`_bash_git`]$ "
+    PS1="`_virtual_env_name`\u@\h:[\W`_bash_git`]$ "
 }
 
 # If not running interactively, don't do much

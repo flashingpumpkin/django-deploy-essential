@@ -29,6 +29,7 @@ PIP = (
 # Packages to install globally with `gem`
 GEM = (
     'chef',
+    'foreman',
 )
 
 # The user you will deploy this application as
@@ -38,7 +39,7 @@ USER = 'application'
 VIRTUALENV = True
 
 # The name for the virtual environment
-VIRTUALENV_NAME = 'project'
+VIRTUALENV_NAME = 'application'
 
 # Configuring chef. Everything in this dictionary will be dumped into the
 # hosts node.json file

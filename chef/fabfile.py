@@ -17,11 +17,6 @@ import settings as conf
 
 env.user = conf.USER
 
-def password():
-    """ Creates a random password """
-    chars = list(string.letters + string.letters.upper() + string.digits)
-    return ''.join(random.sample(chars, 30))
-
 def bootstrap():
     with settings(user='root'):
         upgrade()
@@ -80,4 +75,4 @@ def virtualenv():
     issues when running it from chef
     """
     with settings(user = conf.USER):
-        run('mkvirtualenv project')
+        run('mkvirtualenv %s' % conf.VIRTUALENV_NAME)
