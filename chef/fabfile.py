@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 # This file's purpose is to bootstrap a server to have chef running
 import os
 import re
@@ -26,6 +28,7 @@ def bootstrap():
         install()
         chef()
         virtualenv()
+        print '%s All done. %s is good to go.' % (green(' ✓ '), env.host)
         
 def upgrade():
     with settings(user='root'):
@@ -69,7 +72,6 @@ def chef():
             run('chef-solo -c solo.rb -j node.json')
         
         local('rm chef.tgz')
-        local('rm node.json')
         local('rm -rf chef/')
 
 def virtualenv():
